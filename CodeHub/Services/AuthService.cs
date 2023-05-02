@@ -37,12 +37,12 @@ namespace CodeHub.Services
 
                 Uri oauthLoginUrl = client.Oauth.GetGitHubLoginUrl(request);
 
-                WebAuthenticationResult WebAuthenticationResult = await WebAuthenticationBroker.AuthenticateAsync(
-                                                           WebAuthenticationOptions.None,
+                EdgeAuth.WebAuthenticationResult WebAuthenticationResult = await EdgeAuth.WebAuthenticationBroker.AuthenticateAsync(
+                                                           EdgeAuth.WebAuthenticationOptions.None,
                                                            oauthLoginUrl,
                                                            endUri
                                                            );
-                if (WebAuthenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
+                if (WebAuthenticationResult.ResponseStatus == EdgeAuth.WebAuthenticationStatus.Success)
                 {
                     var response = WebAuthenticationResult.ResponseData;
 
