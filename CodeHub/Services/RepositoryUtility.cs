@@ -426,7 +426,7 @@ namespace CodeHub.Services
                 ApiOptions options = new ApiOptions
                 {
                     PageCount = 1,
-                    PageSize = 10,
+                    PageSize = 30,
                     StartPage = pageIndex
                 };
                 var issues = await GlobalHelper.GithubClient.Issue.GetAllForRepository(repoId, filter, options);
@@ -454,7 +454,7 @@ namespace CodeHub.Services
                 ApiOptions options = new ApiOptions
                 {
                     PageCount = 1,
-                    PageSize = 10,
+                    PageSize = 30,
                     StartPage = pageIndex
                 };
                 var prList = await GlobalHelper.GithubClient.PullRequest.GetAllForRepository(repoId, filter, options);
@@ -479,7 +479,7 @@ namespace CodeHub.Services
             {
                 var options = new ApiOptions
                 {
-                    PageSize = 5,
+                    PageSize = 30,
                     PageCount = 1,
                     StartPage = pageIndex
                 };
@@ -505,7 +505,7 @@ namespace CodeHub.Services
             {
                 var options = new ApiOptions
                 {
-                    PageSize = 5,
+                    PageSize = 30,
                     PageCount = 1,
                     StartPage = pageIndex
                 };
