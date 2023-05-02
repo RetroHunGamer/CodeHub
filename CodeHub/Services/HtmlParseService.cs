@@ -35,12 +35,16 @@ namespace CodeHub.Services
 
                     url = "https://github.com/trending?since=daily";
                     doc = await web.LoadFromWebAsync(url);
-                    h3 = doc.DocumentNode.Descendants("h3");
+                    h3 = doc.DocumentNode.Descendants("h2");
                     foreach (var i in h3)
                     {
-                        var s = i.Descendants("a").First();
-                        var names = s.Attributes["href"].Value.Split('/');
-                        repoNames.Add(new Tuple<string, string>(names[1], names[2]));
+                        try
+                        {
+                            var s = i.Descendants("a").First();
+                            var names = s.Attributes["href"].Value.Split('/');
+                            repoNames.Add(new Tuple<string, string>(names[1], names[2]));
+                        }
+                        catch { }
                     }
                     GlobalHelper.TrendingTodayRepoNames = repoNames;
 
@@ -50,12 +54,16 @@ namespace CodeHub.Services
 
                     url = "https://github.com/trending?since=weekly";
                     doc = await web.LoadFromWebAsync(url);
-                    h3 = doc.DocumentNode.Descendants("h3");
+                    h3 = doc.DocumentNode.Descendants("h2");
                     foreach (var i in h3)
                     {
-                        var s = i.Descendants("a").First();
-                        var names = s.Attributes["href"].Value.Split('/');
-                        repoNames.Add(new Tuple<string, string>(names[1], names[2]));
+                        try
+                        {
+                            var s = i.Descendants("a").First();
+                            var names = s.Attributes["href"].Value.Split('/');
+                            repoNames.Add(new Tuple<string, string>(names[1], names[2]));
+                        }
+                        catch { }
                     }
                     GlobalHelper.TrendingWeekRepoNames = repoNames;
 
@@ -65,12 +73,16 @@ namespace CodeHub.Services
 
                     url = "https://github.com/trending?since=monthly";
                     doc = await web.LoadFromWebAsync(url);
-                    h3 = doc.DocumentNode.Descendants("h3");
+                    h3 = doc.DocumentNode.Descendants("h2");
                     foreach (var i in h3)
                     {
-                        var s = i.Descendants("a").First();
-                        var names = s.Attributes["href"].Value.Split('/');
-                        repoNames.Add(new Tuple<string, string>(names[1], names[2]));
+                        try
+                        {
+                            var s = i.Descendants("a").First();
+                            var names = s.Attributes["href"].Value.Split('/');
+                            repoNames.Add(new Tuple<string, string>(names[1], names[2]));
+                        }
+                        catch { }
                     }
                     GlobalHelper.TrendingMonthRepoNames = repoNames;
 
