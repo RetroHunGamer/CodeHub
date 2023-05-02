@@ -177,7 +177,7 @@ namespace CodeHub.Views
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
         {
             IAsyncNavigationService service = SimpleIoc.Default.GetInstance<IAsyncNavigationService>();
-            if (service != null && !e.Handled)
+            if (service != null && /*!e.Handled*/ service.CanGoBackAsync().Result)
             {
                 e.Handled = true;
                 service.GoBackAsync();
