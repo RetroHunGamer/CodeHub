@@ -471,18 +471,66 @@
                                         Duration="0" />
                     </i:Interaction.Behaviors>
                 </Border>
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                              HorizontalScrollMode="Disabled"
-                              VerticalScrollBarVisibility="Hidden"
-                              VerticalScrollMode="Enabled">
-                    <toolkitControls:MarkdownTextBlock x:Name="ReleaseBodyText"
-                                                       Padding="8"
-                                                       FontSize="13"
-                                                       ImageStretch="Fill"
-                                                       IsTextSelectionEnabled="False"
-                                                       LinkClicked="{x:Bind ViewModel.MarkdownTextBlock_LinkClicked}"
-                                                       TextWrapping="Wrap" />
-                </ScrollViewer>
+                <Border Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                        Height="45"
+                        VerticalAlignment="Top"
+                        Margin="8,8,8,0">
+                    <TextBlock x:Name="ReleaseName"
+                               VerticalAlignment="Center"
+                               Margin="8,0,46,0"
+                               FontSize="20"
+                               TextWrapping="NoWrap"
+                               TextTrimming="WordEllipsis"/>
+                </Border>
+                <Pivot Margin="0,55,0,0" 
+                       x:Name="ReleasePivot"
+                       Style="{StaticResource CustomPivotStyle}">
+                    <Pivot.Resources>
+                        <Style BasedOn="{StaticResource CustomPivotHeaderItemStyle}" TargetType="PivotHeaderItem" />
+                    </Pivot.Resources>
+                    <PivotItem Margin="0,-6,0,0">
+                        <PivotItem.Header>
+                            <TextBlock FontSize="15"
+                                       FontWeight="SemiBold" 
+                                       Text="Release Notes"/>
+                        </PivotItem.Header>
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                      HorizontalScrollMode="Disabled"
+                                      VerticalScrollBarVisibility="Hidden"
+                                      VerticalScrollMode="Enabled">
+                            <toolkitControls:MarkdownTextBlock x:Name="ReleaseBodyText"
+                                                               Margin="8,0,8,8"
+                                                               Padding="8"
+                                                               FontSize="13"
+                                                               ImageStretch="Fill"
+                                                               IsTextSelectionEnabled="True"
+                                                               LinkClicked="{x:Bind ViewModel.MarkdownTextBlock_LinkClicked}"
+                                                               TextWrapping="Wrap"/>
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Margin="0,-6,0,0">
+                        <PivotItem.Header>
+                            <TextBlock FontSize="15"
+                                       FontWeight="SemiBold" 
+                                       Text="Assets"/>
+                        </PivotItem.Header>
+                        <ListView x:Name="ReleaseAssets"
+                                  Margin="8,0,8,8"
+                                  Padding="8"
+                                  IsItemClickEnabled="True"
+                                  ItemClick="ReleaseAssets_ItemClick"
+                                  ItemContainerStyle="{StaticResource CustomListViewItemStyle}"
+                                  ScrollViewer.HorizontalScrollMode="Disabled"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  ScrollViewer.VerticalScrollMode="Enabled">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </PivotItem>
+                </Pivot>
                 <Button x:Name="CloseReleaseTextPanel"
                         Margin="0,8,8,0"
                         Padding="12"

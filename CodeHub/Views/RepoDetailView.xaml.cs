@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using Octokit;
 using UICompositionAnimations;
 using UICompositionAnimations.Enums;
+using Windows.System;
 
 namespace CodeHub.Views
 {
@@ -112,9 +113,18 @@ namespace CodeHub.Views
 
         private async void ReleasesList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            ReleasePivot.SelectedItem = ReleasePivot.Items[0];
+            ReleaseName.Text = (e.ClickedItem as Release).Name;
             ReleaseBodyText.Text = (e.ClickedItem as Release).Body;
+            ReleaseAssets.ItemsSource = (e.ClickedItem as Release).Assets;
             ReleaseBodyTextPanel.Visibility = Visibility.Visible;
             await ReleaseBodyTextPanel.StartCompositionFadeScaleAnimationAsync(0, 1, 1.1f, 1, 150, null, 0, EasingFunctionNames.SineEaseInOut);
+        }
+        
+        private void ReleaseAssets_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            dynamic item = e.ClickedItem;
+            Launcher.LaunchUriAsync(new Uri(item.BrowserDownloadUrl));
         }
 
         private async void CloseReleaseTextPanel_Tapped(object sender, TappedRoutedEventArgs e)
