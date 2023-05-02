@@ -1,7 +1,6 @@
 ﻿<Page x:Class="CodeHub.Views.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:AD="using:Microsoft.Advertising.WinRT.UI"
       xmlns:control="using:CodeHub.Controls"
       xmlns:converters="using:CodeHub.Converters"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
@@ -14,6 +13,7 @@
       xmlns:toolkitControl="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       mc:Ignorable="d">
+    <!--xmlns:AD="using:Microsoft.Advertising.WinRT.UI"-->
     <Page.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" x:Name="BooleanToVisibilityConverter" />
         <converters:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter" x:Name="ReverseBooleanToVisibilityConverter" />
@@ -292,7 +292,7 @@
                                 </LinearGradientBrush>
                             </Grid.Background>
                         </Grid>
-                        <AD:AdControl x:Name="adControlDesktop"
+                        <!--<AD:AdControl x:Name="adControlDesktop"
                                       Grid.Row="1"
                                       Visibility="{x:Bind ViewModel.IsDesktopAdsVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
                                       Width="728"
@@ -313,7 +313,7 @@
                                       AdUnitId="11650562"
                                       ApplicationId="9nblggh52tbd"
                                       AutoRefreshIntervalInSeconds="60"
-                                      IsAutoRefreshEnabled="True" />
+                                      IsAutoRefreshEnabled="True" />-->
                     </Grid>
                 </SplitView.Content>
             </SplitView>
