@@ -189,9 +189,11 @@ namespace CodeHub.ViewModels
 
         public async Task ConfigureAdsVisibility()
         {
-            if (await HasAlreadyDonated())
+            //if (await HasAlreadyDonated())
+            if (true)
             {
                 GlobalHelper.HasAlreadyDonated = true;
+                SettingsService.Save<bool>(SettingsKeys.IsAdsEnabled, false);
                 ToggleAdsVisiblity();
             }
             else

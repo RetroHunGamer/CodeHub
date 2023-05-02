@@ -60,13 +60,13 @@ namespace CodeHub.ViewModels
                     GlyphString = "\xE7BE",
                     DestPage = typeof(AboutSettingsView)
                 },
-                new SettingsItem()
-                {
-                    MainText = languageLoader.GetString("menu_Settings_SubMenu_Donate"),
-                    SubText = languageLoader.GetString("menu_Settings_SubMenu_Donate_SubText"),
-                    GlyphString = "\xE170",
-                    DestPage = typeof(DonateView)
-                },
+                //new SettingsItem()
+                //{
+                //    MainText = languageLoader.GetString("menu_Settings_SubMenu_Donate"),
+                //    SubText = languageLoader.GetString("menu_Settings_SubMenu_Donate_SubText"),
+                //    GlyphString = "\xE170",
+                //    DestPage = typeof(DonateView)
+                //},
                 new SettingsItem()
                 {
                     MainText = languageLoader.GetString("menu_Settings_SubMenu_Credits"),
