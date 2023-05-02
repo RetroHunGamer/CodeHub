@@ -42,7 +42,6 @@
                    Margin="0,0,0,12"
                    VerticalAlignment="Center"
                    FontSize="13"
-                   MaxLines="3"
                    RelativePanel.AlignLeftWith="login"
                    RelativePanel.AlignRightWithPanel="True"
                    RelativePanel.Below="login"

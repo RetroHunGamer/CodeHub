@@ -85,9 +85,9 @@ namespace CodeHub.Views
         {
             if (visible)
             {
-                ViewModel.NewIssueBodyText = ViewModel.Issue.Body;
-                ViewModel.NewIssueTitleText = ViewModel.Issue.Title;
-                EditIssueMarkdownEditorControl.SetMarkdowntext(ViewModel.NewIssueBodyText);
+                ViewModel.NewIssueBodyText = ViewModel.Issue.Body ?? "";
+                ViewModel.NewIssueTitleText = ViewModel.Issue.Title ?? "";
+                EditIssueMarkdownEditorControl.SetMarkdowntext(ViewModel.NewIssueBodyText ?? "");
                 EditIssueDialog.SetVisualOpacity(0);
                 EditIssueDialog.Visibility = Visibility.Visible;
                 await EditIssueDialog.StartCompositionFadeScaleAnimationAsync(0, 1, 1.1f, 1, 150, null, 0, EasingFunctionNames.SineEaseInOut);

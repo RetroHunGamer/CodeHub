@@ -93,9 +93,10 @@ namespace CodeHub.Views
             await ConfigureHamburgerMenuBlur();
 
             await ViewModel.Initialize();
-
-            if (SystemInformation.IsAppUpdated && ViewModel.isLoggedin)
-                await ShowWhatsNewPopupVisiblity();
+            
+            // Disabled for now...
+            //if (SystemInformation.IsAppUpdated && ViewModel.isLoggedin)
+            //    await ShowWhatsNewPopupVisiblity();
         }
 
         #region click events
