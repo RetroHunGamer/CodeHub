@@ -16,7 +16,11 @@ namespace CodeHub.ViewModels
 {
     public class MyReposViewmodel : AppViewmodel
     {
-        
+        public int UserReposIndex { get; set; }
+        public int StarredUserReposIndex { get; set; }
+        public double UserReposMaxScrollViewerOffset { get; set; }
+        public double StarredUserReposMaxScrollViewerOffset { get; set; }
+
         public bool _zeroRepo;
         /// <summary>
         /// 'No Repositories' TextBlock will display if this is true
@@ -208,38 +212,92 @@ namespace CodeHub.ViewModels
             isLoading = false;
 
         }
-        private async Task LoadRepos()
+        public async Task LoadRepos()
         {
-            var repos = await UserUtility.GetUserRepositories();
-            if (repos == null || repos.Count == 0)
+            if (Repositories == null)
             {
-                ZeroRepo = true;
-                if(Repositories!=null)
+                Repositories = new ObservableCollection<Repository>();
+            }
+            UserReposIndex++;
+            if (UserReposIndex > 1)
+            {
+                var repos = await UserUtility.GetUserRepositories(UserReposIndex);
+                if (repos != null)
                 {
-                    Repositories.Clear();
+                    if (repos.Count > 0)
+                    {
+                        foreach (var i in repos)
+                        {
+                            Repositories.Add(i);
+                        }
+                    }
+                    else
+                    {
+                        //no more repos to load
+                        UserReposIndex = -1;
+                    }
                 }
             }
             else
             {
-                ZeroRepo = false;
-                RepositoriesNotFiltered = Repositories = repos;
+                var repos = await UserUtility.GetUserRepositories(UserReposIndex);
+                if (repos == null || repos.Count == 0)
+                {
+                    ZeroRepo = true;
+                    if (Repositories != null)
+                    {
+                        Repositories.Clear();
+                    }
+                }
+                else
+                {
+                    ZeroRepo = false;
+                    RepositoriesNotFiltered = Repositories = repos;
+                }
             }
         }
-        private async Task LoadStarRepos()
+        public async Task LoadStarRepos()
         {
-            var starred = await UserUtility.GetStarredRepositories();
-            if (starred == null || starred.Count == 0)
+            if (StarredRepositories == null)
             {
-                ZeroStarRepo = true;
-                if(StarredRepositories!=null)
+                StarredRepositories = new ObservableCollection<Repository>();
+            }
+            StarredUserReposIndex++;
+            if (StarredUserReposIndex > 1)
+            {
+                var repos = await UserUtility.GetStarredRepositories(StarredUserReposIndex);
+                if (repos != null)
                 {
-                    StarredRepositories.Clear();
+                    if (repos.Count > 0)
+                    {
+                        foreach (var i in repos)
+                        {
+                            StarredRepositories.Add(i);
+                        }
+                    }
+                    else
+                    {
+                        //no more repos to load
+                        StarredUserReposIndex = -1;
+                    }
                 }
             }
             else
             {
-                ZeroStarRepo = false;
-                StarredRepositoriesNotFiltered = StarredRepositories = starred;
+                var starred = await UserUtility.GetStarredRepositories(StarredUserReposIndex);
+                if (starred == null || starred.Count == 0)
+                {
+                    ZeroStarRepo = true;
+                    if (StarredRepositories != null)
+                    {
+                        StarredRepositories.Clear();
+                    }
+                }
+                else
+                {
+                    ZeroStarRepo = false;
+                    StarredRepositoriesNotFiltered = StarredRepositories = starred;
+                }
             }
         }
         public void MyReposQueryString_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

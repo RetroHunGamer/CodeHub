@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 using Windows.System.Profile;
 using Windows.Devices.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace CodeHub.Views
 {
@@ -14,6 +15,9 @@ namespace CodeHub.Views
     public sealed partial class MyReposView : Windows.UI.Xaml.Controls.Page
     {
         public MyReposViewmodel ViewModel { get; set; }
+        private ScrollViewer RepoScrollViewer;
+        private ScrollViewer StarredRepoScrollViewer;
+
         public MyReposView()
         {
             this.InitializeComponent();
@@ -53,6 +57,71 @@ namespace CodeHub.Views
             refreshindicator2.Opacity = e.PullProgress;
             refreshindicator2.Background = e.PullProgress < 1.0 ? GlobalHelper.GetSolidColorBrush("4078C0FF") : GlobalHelper.GetSolidColorBrush("47C951FF");
         }
-        
+
+        private void RepoListView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (RepoScrollViewer != null)
+                RepoScrollViewer.ViewChanged -= OnRepoScrollViewerViewChanged;
+
+            RepoScrollViewer = RepoListView.FindChild<ScrollViewer>();
+            RepoScrollViewer.ViewChanged += OnRepoScrollViewerViewChanged;
+        }
+
+        private void StarredRepoListView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (StarredRepoScrollViewer != null)
+                StarredRepoScrollViewer.ViewChanged -= OnStarredRepoScrollViewerViewChanged;
+
+            StarredRepoScrollViewer = StarredRepoListView.FindChild<ScrollViewer>();
+            StarredRepoScrollViewer.ViewChanged += OnStarredRepoScrollViewerViewChanged;
+        }
+
+        private async void OnRepoScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (ViewModel.UserReposIndex != -1)
+            {
+                ScrollViewer sv = (ScrollViewer)sender;
+
+                var verticalOffset = sv.VerticalOffset;
+                var maxVerticalOffset = sv.ScrollableHeight; //sv.ExtentHeight - sv.ViewportHeight;
+
+                if ((maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset) && verticalOffset > ViewModel.UserReposMaxScrollViewerOffset)
+                {
+                    ViewModel.UserReposMaxScrollViewerOffset = maxVerticalOffset;
+
+                    // Scrolled to bottom
+                    if (GlobalHelper.IsInternet())
+                    {
+                        ViewModel.isLoading = true;
+                        await ViewModel.LoadRepos();
+                    }
+                    ViewModel.isLoading = false;
+                }
+            }
+        }
+
+        private async void OnStarredRepoScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (ViewModel.StarredUserReposIndex != -1)
+            {
+                ScrollViewer sv = (ScrollViewer)sender;
+
+                var verticalOffset = sv.VerticalOffset;
+                var maxVerticalOffset = sv.ScrollableHeight; //sv.ExtentHeight - sv.ViewportHeight;
+
+                if ((maxVerticalOffset < 0 || verticalOffset == maxVerticalOffset) && verticalOffset > ViewModel.StarredUserReposMaxScrollViewerOffset)
+                {
+                    ViewModel.StarredUserReposMaxScrollViewerOffset = maxVerticalOffset;
+
+                    // Scrolled to bottom
+                    if (GlobalHelper.IsInternet())
+                    {
+                        ViewModel.IsStarredLoading = true;
+                        await ViewModel.LoadStarRepos();
+                    }
+                    ViewModel.IsStarredLoading = false;  
+                }
+            }
+        }
     }
 }

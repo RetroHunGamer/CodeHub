@@ -122,11 +122,17 @@ namespace CodeHub.Services
         /// Gets all repositories of current user
         /// </summary>
         /// <returns></returns>
-        public static async Task<ObservableCollection<Repository>> GetUserRepositories()
+        public static async Task<ObservableCollection<Repository>> GetUserRepositories(int pageIndex)
         {
             try
             {
-                var repos = await GlobalHelper.GithubClient.Repository.GetAllForCurrent();
+                var options = new ApiOptions
+                {
+                    PageSize = 30,
+                    PageCount = 1,
+                    StartPage = pageIndex
+                };
+                var repos = await GlobalHelper.GithubClient.Repository.GetAllForCurrent(options);
                 return new ObservableCollection<Repository>(repos);
             }
             catch
@@ -180,11 +186,17 @@ namespace CodeHub.Services
         /// Gets all repositories starred by current user
         /// </summary>
         /// <returns></returns>
-        public static async Task<ObservableCollection<Repository>> GetStarredRepositories()
+        public static async Task<ObservableCollection<Repository>> GetStarredRepositories(int pageIndex)
         {
             try
             {
-                var repos = await GlobalHelper.GithubClient.Activity.Starring.GetAllForCurrent();
+                var options = new ApiOptions
+                {
+                    PageSize = 30,
+                    PageCount = 1,
+                    StartPage = pageIndex
+                };
+                var repos = await GlobalHelper.GithubClient.Activity.Starring.GetAllForCurrent(options);
                 return new ObservableCollection<Repository>(repos);
             }
             catch
