@@ -32,12 +32,13 @@ namespace EdgeAuth
             dialog = new ContentDialog();
 
             var grid = new Grid();
-            grid.RowDefinitions.Add(new RowDefinition() { Height = Windows.UI.Xaml.GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new Windows.UI.Xaml.GridLength(40) });
             grid.RowDefinitions.Add(new RowDefinition() { Height = new Windows.UI.Xaml.GridLength(1, Windows.UI.Xaml.GridUnitType.Star) });
 
             var label = new TextBlock();
             label.Text = "Connecting to GitHub";
             label.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Left;
+            label.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
             label.Margin = new Windows.UI.Xaml.Thickness(0);
             grid.Children.Add(label);
 
@@ -50,7 +51,7 @@ namespace EdgeAuth
             closeButton.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Right;
             closeButton.Click += (s, e) => { dialog.Hide(); };
             grid.Children.Add(closeButton);
-
+            
             var webView = new WebView(WebViewExecutionMode.SameThread) { /*Source = requestUri*/ };
            
             //Added by RetroHunGamer
@@ -60,7 +61,6 @@ namespace EdgeAuth
             HttpCookieManager cookieManager = filter.CookieManager;
             HttpCookieCollection cookies = cookieManager.GetCookies(requestUri);
             foreach (HttpCookie cookie in cookies) cookieManager.DeleteCookie(cookie);
-
 
             webView.AllowFocusOnInteraction = true;
             webView.SetValue(Grid.RowProperty, 1);
@@ -72,12 +72,8 @@ namespace EdgeAuth
             grid.Children.Add(webView);
 
             dialog.Content = grid;
-            dialog.GotFocus += (s, e) => { webView.Focus(Windows.UI.Xaml.FocusState.Programmatic); };
-
-            //Added by RetroHunGamer
-            //dialog.SecondaryButtonText = "Close";
-            //dialog.SecondaryButtonClick += Dialog_SecondaryButtonClick;
-            //dialog.SecondaryButtonClick += (s, e) => { dialog.Hide(); };
+            //Disabled, since with it the dialog can't be closed with the 'closeButton'.
+            //dialog.GotFocus += (s, e) => { webView.Focus(Windows.UI.Xaml.FocusState.Programmatic); };
 
             webView.Navigate(requestUri);
             var res = await dialog.ShowAsync();
@@ -113,9 +109,7 @@ namespace EdgeAuth
         {
             if (args.Uri.ToString().StartsWith("https://github.com/login/oauth/"))
             {
-                string function = String.Format(@"document.getElementById('js-oauth-authorize-btn').removeAttribute('disabled');");
-
-                string func = "document.getElementById(" + '"' + "js - oauth - authorize - btn" + '"' + ").removeAttribute(" + '"' + "disabled" + '"' + ")";
+                string function = String.Format(@"document.getElementsByClassName('js-oauth-authorize-btn btn btn-primary width-full ws-normal')[0].removeAttribute('disabled');");
 
                 try
                 {
